@@ -17,8 +17,8 @@
     <div class="sider">
         <a href="#" class="logo"><img src="images/logo02.png" alt="logo"></a>
         <div class="user_info">
-            <img src="images/2.jpg" alt="person">
-            <span>欢迎&nbsp;&nbsp;李思思</span>
+            <img id="Img"src="images/2.jpg" alt="person">
+            <span>欢迎&nbsp;&nbsp;<i id="nId">李思思</i></span>
             <b>管理员</b>
         </div>
         <div class="menu">
@@ -44,14 +44,31 @@
         <div class="user_center_link">
             <a href="user.html" onclick="setMenu(3,0)" target="main_frame">个人中心</a>
             <img src="images/2.jpg" alt="person">
-            <a href="#"><i class="iconfont icon-tuichu"></i> 退出</a>
+            <a id="exit" href="javascript:;"><i class="iconfont icon-tuichu"></i> 退出</a>
         </div>
     </div>
 
     <div class="main" id="main_body">
         <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0" scrolling="auto"></iframe>
     </div>
-
+    <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">退出确认</h4>
+                </div>
+                <div class="modal-body">
+                    <p>确定要退出吗&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button id="btnExit" type="button" class="btn btn-primary">退出</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 
     <script>
@@ -103,6 +120,35 @@
         }
 
     </script>
+    <script src="js/register/URL.js"></script>
+    <script src="js/register/user.js"></script>
+    <script src="js/bootstrap/js/bootstrap.min.js"></script>
+   <script>
+        $(function(){
+            user.logimg(function(res){
+                console.log(res);
+                // 用户信息
+            if(res.code==200){
+                $('#Img').prop('src',res.data.user_pic)
+                $('#nId').text(res.data.nId)
+            }    
+              
+            })
+        })
 
+     $('#exit').click(function(){
+        //点击退出按钮先显示警告框，然后在给警告框里的确定按钮添加点击事件
+        $('.modal').modal('show')
+     })
+    // 给退出按钮加点击事件
+    $('#btnExit').click(function(){
+          user.logout(function(res){
+            if(res.code==200){
+                window.location.href='./login.html'
+            }
+             
+         })
+    })
+   </script>
 </body>
 </html>
